@@ -1,0 +1,22 @@
+{
+  "name": "files-diff",
+  "version": "0.0.1",
+  "description": "Highlight changes and additions across a set of files in an object.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MattIPv4/files-diff.git"
+  },
+  "keywords": [
+    "diff"
+  ],
+  "author": "Matt (IPv4) Cowley",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/MattIPv4/files-diff/issues"
+  },
+  "homepage": "https://github.com/MattIPv4/files-diff#readme"
+}
