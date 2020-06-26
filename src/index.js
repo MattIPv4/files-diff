@@ -1,5 +1,6 @@
 import renameMap from './rename_map';
 import diffChars from './diff_chars';
+import diffLines from './diff_lines';
 
 /**
  * The name of a file.
@@ -137,7 +138,7 @@ export default (newFiles, oldFiles, options) => {
 
         // If the contents aren't equal, perform a diff
         if (newFiles[newName] !== old) {
-            // TODO: diffLines!
+            diffs[newName].content = diffLines(newFiles[newName], old, options);
         }
     }
 

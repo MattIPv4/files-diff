@@ -2,10 +2,10 @@ import diff from '../src';
 
 console.log(diff(
     {
-        'test.txt': 'aaa\nbbb\nccc\nddd\neee',
+        'test.txt': 'aaa\nbbb\nccc\nddd\neee\naaa',
     },
     {
-        'hello.txt': 'aaa\nbbb\nfff\nddd\neee',
+        'hello.txt': 'aaa\nbbb\nfff\nddd\neee\n  aaa',
     },
     {
         highlightFunction: (change, added, removed) => {

@@ -18,9 +18,12 @@ const highlightChange = (change, options) => {
  * @return {Diff}
  */
 export default (diff, options) => {
-    return diff.reduce((prev, change) => {
+    return diff.reduce((prev, srcChange, index, src) => {
+        // Make a clone that is detached
+        const change = { ...srcChange };
+
         // Escape if needed
-        if (options.escapeHtml) change.value = escape(change.value);
+        if (options.escapeHtml) change.value = escape(change.value).replace(new RegExp(escape('\n'), 'g'), '\n');
 
         // Ensure added & removed are booleans
         change.added = !!change.added;
@@ -39,6 +42,29 @@ export default (diff, options) => {
         if (!options.ignoreWhitespace) {
             prev.push(highlightChange(change, options));
             return prev;
+        }
+
+        // Don't mark as diff if only whitespace changed
+        // If the counter-part is before us, store as a no-op change
+        if (index > 0) {
+            if ((src[index - 1].removed && srcChange.added) || (src[index - 1].added && srcChange.removed)) {
+                if (src[index - 1].value.replace(/\s/g, '') === srcChange.value.replace(/\s/g, '')) {
+                    prev.push({
+                        added: false,
+                        removed: false,
+                        value: change.value,
+                    });
+                    return prev;
+                }
+            }
+        }
+        // If the counter-part is after us, do nothing
+        if (index < src.length - 1) {
+            if ((src[index + 1].removed && srcChange.added) || (src[index + 1].added && srcChange.removed)) {
+                if (src[index + 1].value.replace(/\s/g, '') === srcChange.value.replace(/\s/g, '')) {
+                    return prev;
+                }
+            }
         }
 
         // Something has changed, but we should remove whitespace before/after this change
