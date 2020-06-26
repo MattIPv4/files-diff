@@ -1,3 +1,5 @@
+import escape from 'escape-html';
+
 /**
  *
  * @param {Change} change
@@ -6,7 +8,10 @@
  */
 const highlightChange = (change, options) => {
     if (options.highlightFunction) {
-        change.value = options.highlightFunction(change.value, change.added, change.removed);
+        // Attempt to avoid highlighting leading/trailing whitespace
+        const match = change.value.match(/^(\s*)(.*)(\s*)$/);
+        const highlighted = options.highlightFunction(match ? match[2] : change.value, change.added, change.removed);
+        change.value = `${match ? match[1] : ''}${highlighted}${match ? match[3] : ''}`;
     }
     return change;
 };
@@ -23,7 +28,7 @@ export default (diff, options) => {
         const change = { ...srcChange };
 
         // Escape if needed
-        if (options.escapeHtml) change.value = escape(change.value).replace(new RegExp(escape('\n'), 'g'), '\n');
+        if (options.escapeHtml) change.value = escape(change.value);
 
         // Ensure added & removed are booleans
         change.added = !!change.added;
@@ -67,29 +72,14 @@ export default (diff, options) => {
             }
         }
 
-        // Something has changed, but we should remove whitespace before/after this change
-        const match = change.value.match(/^(\s*)(.*?)(\s*)$/);
-
-        // If whitespace before, store that as a new part of the diff
-        if (match[1]) {
-            prev.push({
-                added: false,
-                removed: false,
-                value: match[1],
-            });
-        }
-
-        // Store the original change without whitespace, highlighting it if needed
-        change.value = match[2];
-        prev.push(highlightChange(change, options));
-
-        // If whitespace before, store that as a new part of the diff
-        if (match[3]) {
-            prev.push({
-                added: false,
-                removed: false,
-                value: match[3],
-            });
+        // Highlight change line by line, so we can avoid highlighting whitespace
+        const values = change.value.split('\n').map((value, index, arr) => `${value}${index < arr.length - 1 ? '\n' : ''}`);
+        for (const value of values) {
+            prev.push(highlightChange({
+                added: change.added,
+                removed: change.removed,
+                value,
+            }, options));
         }
 
         // Done!

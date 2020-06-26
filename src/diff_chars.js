@@ -1,7 +1,5 @@
-import JsDiff from 'diff';
+import { diffChars } from 'diff';
 import customDiff from './custom_diff';
-
-// TODO: Investigate importing diffChars directly from `diff`
 
 /**
  *
@@ -12,7 +10,7 @@ import customDiff from './custom_diff';
  */
 export default (newChars, oldChars, options) => {
     // Get the initial diff from the `diff` library
-    const diff = JsDiff.diffChars(oldChars, newChars);
+    const diff = diffChars(oldChars, newChars);
 
     // Return our customised diff (whitespace & highlighting)
     return customDiff(diff, options);

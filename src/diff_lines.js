@@ -1,7 +1,5 @@
-import JsDiff from 'diff';
+import { diffLines } from 'diff';
 import customDiff from './custom_diff';
-
-// TODO: Investigate importing diffChars directly from `diff`
 
 /**
  *
@@ -12,7 +10,7 @@ import customDiff from './custom_diff';
  */
 export default (newLines, oldLines, options) => {
     // Get the initial diff from the `diff` library
-    const diff = JsDiff.diffLines(oldLines, newLines);
+    const diff = diffLines(oldLines, newLines);
 
     // Return our customised diff (whitespace & highlighting)
     return customDiff(diff, options);
