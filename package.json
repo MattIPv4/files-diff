@@ -2,10 +2,14 @@
     "name": "files-diff",
     "version": "0.0.2",
     "description": "Highlight changes and additions across a set of files in an object.",
-    "main": "src/index.js",
-    "type": "module",
+    "source": "src/index.mjs",
+    "main": "dist/index.js",
+    "module": "dist/index.module.js",
+    "unpkg": "dist/index.umd.js",
     "scripts": {
-        "test": "node --experimental-specifier-resolution=node test"
+        "test": "node test/index.js",
+        "build": "microbundle --target node --format cjs,es,umd --compress --sourcemap false",
+        "watch": "npm run build -- --watch"
     },
     "repository": {
         "type": "git",
@@ -24,5 +28,8 @@
         "diff": "^4.0.2",
         "escape-html": "^1.0.3",
         "string-similarity": "^4.0.1"
+    },
+    "devDependencies": {
+        "microbundle": "^0.12.2"
     }
 }
