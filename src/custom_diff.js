@@ -23,7 +23,7 @@ const highlightChange = (change, options) => {
  * @return {Diff}
  */
 export default (diff, options) => {
-    return diff.reduce((prev, srcChange, index, src) => {
+    const customDiff = diff.reduce((prev, srcChange, index, src) => {
         // Make a clone that is detached
         const change = { ...srcChange };
 
@@ -86,5 +86,22 @@ export default (diff, options) => {
         return prev;
     }, []);
 
-    // TODO: Cleanup consecutive change entries of the same type (multiple additions, multiple removals, multiple no-ops)
+    // Combine consecutive changes of the same type
+    const previousState = { added: null, removed: null };
+    return customDiff.reduce((prev, change) => {
+        if (change.added === previousState.added && change.removed === previousState.removed) {
+            // If identical change type previously, combine
+            prev[prev.length - 1].value += change.value;
+        } else {
+            // Otherwise, add as a new change
+            prev.push(change);
+        }
+
+        // Update state
+        previousState.added = change.added;
+        previousState.removed = change.removed;
+
+        // Done
+        return prev;
+    }, []);
 };
