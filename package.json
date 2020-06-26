@@ -1,6 +1,6 @@
 {
     "name": "files-diff",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Highlight changes and additions across a set of files in an object.",
     "main": "src/index.js",
     "type": "module",
