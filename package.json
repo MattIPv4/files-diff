@@ -21,6 +21,8 @@
     },
     "homepage": "https://github.com/MattIPv4/files-diff#readme",
     "dependencies": {
+        "diff": "^4.0.2",
+        "escape-html": "^1.0.3",
         "string-similarity": "^4.0.1"
     }
 }

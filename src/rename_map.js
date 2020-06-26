@@ -11,9 +11,10 @@ import stringSimilarity from 'string-similarity';
  *
  * @param {Files} newFiles
  * @param {Files} oldFiles
+ * @param {Number} similarityThreshold
  * @return {FileNameMap}
  */
-export default (newFiles, oldFiles) => {
+export default (newFiles, oldFiles, similarityThreshold) => {
     // Establish which files were added and removed
     const newNames = Object.keys(newFiles);
     const oldNames = Object.keys(oldFiles);
@@ -29,8 +30,8 @@ export default (newFiles, oldFiles) => {
         const available = [...availableAddedNames.values()].map(name => [name, newFiles[name]]);
         const similarity = stringSimilarity.findBestMatch(oldFiles[removedName], available.map(x => x[1]));
 
-        // If the most similar is below 0.5, skip this removed file
-        if (similarity.bestMatch.rating < 0.5) continue;
+        // If the most similar is below the threshold, skip this removed file
+        if (similarity.bestMatch.rating < similarityThreshold) continue;
 
         // Store the match
         const addedName = available[similarity.bestMatchIndex][0];
