@@ -30,6 +30,6 @@
         "string-similarity": "^4.0.1"
     },
     "devDependencies": {
-        "microbundle": "^0.12.2"
+        "microbundle": "^0.12.3"
     }
 }
