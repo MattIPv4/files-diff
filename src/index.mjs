@@ -128,7 +128,7 @@ export default (newFiles, oldFiles, options) => {
         if (oldName === null) {
             diffs[newName].name[0].added = options.newAsAdded;
             diffs[newName].content[0].added = options.newAsAdded;
-            return;
+            continue;
         }
 
         // If the names aren't equal, perform a diff
