@@ -26,6 +26,9 @@ export default (newFiles, oldFiles, similarityThreshold) => {
     const availableAddedNames = new Set(addedNames);
     const renameMap = {};
     for (const removedName of removedNames) {
+        // If no available files, skip this removed file
+        if (availableAddedNames.size === 0) continue;
+
         // Determine which added file this removed file is most similar to
         const available = Array.from(availableAddedNames).map(name => [name, newFiles[name]]);
         const similarity = stringSimilarity.findBestMatch(oldFiles[removedName], available.map(x => x[1]));

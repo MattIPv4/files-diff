@@ -168,3 +168,23 @@ assert.equal(fileAdditionResult['hello-world.txt'].content.length, 1);
 assert.equal(fileAdditionResult['hello-world.txt'].content[0].added, true);
 assert.equal(fileAdditionResult['hello-world.txt'].content[0].removed, false);
 assert.equal(fileAdditionResult['hello-world.txt'].content[0].value, 'aaa\nbbb\nccc\nddd\neee\nfff\n');
+
+// Test file removal
+const fileRemovalResult = diff(
+    {
+        'hello.txt': 'aaa\nbbb\nccc\nddd\neee\n',
+    },
+    {
+        'hello.txt': 'aaa\nbbb\nccc\nddd\neee\n',
+        'hello-world.txt': 'aaa\nbbb\nccc\nddd\neee\nfff\n',
+    },
+);
+assert.equal(fileRemovalResult['hello.txt'].name.length, 1);
+assert.equal(fileRemovalResult['hello.txt'].name[0].added, false);
+assert.equal(fileRemovalResult['hello.txt'].name[0].removed, false);
+assert.equal(fileRemovalResult['hello.txt'].name[0].value, 'hello.txt');
+assert.equal(fileRemovalResult['hello.txt'].content.length, 1);
+assert.equal(fileRemovalResult['hello.txt'].content[0].added, false);
+assert.equal(fileRemovalResult['hello.txt'].content[0].removed, false);
+assert.equal(fileRemovalResult['hello.txt'].content[0].value, 'aaa\nbbb\nccc\nddd\neee\n');
+assert.equal('hello-world.txt' in fileRemovalResult, false);
