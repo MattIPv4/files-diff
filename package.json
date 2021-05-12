@@ -8,7 +8,7 @@
     "unpkg": "dist/index.umd.js",
     "scripts": {
         "test": "node test/index.js",
-        "build": "microbundle --target node --format cjs,es,umd --compress --sourcemap false",
+        "build": "microbundle --target node --format cjs,es,umd --compress --no-sourcemap",
         "watch": "npm run build -- --watch"
     },
     "repository": {
@@ -25,11 +25,11 @@
     },
     "homepage": "https://github.com/MattIPv4/files-diff#readme",
     "dependencies": {
-        "diff": "^4.0.2",
+        "diff": "^5.0.0",
         "escape-html": "^1.0.3",
-        "string-similarity": "^4.0.1"
+        "string-similarity": "^4.0.4"
     },
     "devDependencies": {
-        "microbundle": "^0.12.3"
+        "microbundle": "^0.13.0"
     }
 }
