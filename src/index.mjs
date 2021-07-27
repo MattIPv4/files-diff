@@ -1,3 +1,4 @@
+import escape from 'escape-html';
 import renameMap from './rename_map';
 import diffChars from './diff_chars';
 import diffLines from './diff_lines';
@@ -111,12 +112,12 @@ export default (newFiles, oldFiles, options) => {
             name: [{
                 added: false,
                 removed: false,
-                value: newName,
+                value: options.escapeHtml ? escape(newName) : newName,
             }],
             content: [{
                 added: false,
                 removed: false,
-                value: newFiles[newName],
+                value: options.escapeHtml ? escape(newFiles[newName]) : newFiles[newName],
             }],
         };
 
